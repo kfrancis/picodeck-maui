@@ -1,0 +1,67 @@
+{
+  "$schema": "../../configSchema.json",
+  "applications": [
+    {
+      "name": "OBS",
+      "offColor": [ 212, 21, 21 ],
+      "shortcuts": {
+        "0": {
+          "color": [ 255, 0, 0 ],
+          "keys": [ "Alt", "F1" ]
+        },
+        "1": {
+          "color": [ 0, 255, 0 ],
+          "keys": [ "Alt", "F2" ]
+        },
+        "10": {
+          "color": [ 0, 0, 255 ],
+          "keys": [ "Alt", "F10" ]
+        }
+      }
+    },
+    {
+      "name": "Streamlabs",
+      "offColor": [ 128, 245, 210 ],
+      "shortcuts": {
+        "0": {
+          "color": [ 255, 255, 0 ],
+          "keys": [ "Ctrl", "F1" ]
+        },
+        "1": {
+          "color": [ 0, 255, 255 ],
+          "keys": [ "Ctrl", "F2" ]
+        },
+        "11": {
+          "color": [ 255, 0, 255 ],
+          "keys": [ "Ctrl", "F11" ]
+        }
+      }
+    },
+    {
+      "key": "8",
+      "name": "Spotify",
+      "offColor": [ 35, 206, 94 ],
+      "shortcuts": {
+        "0": {
+          "color": [ 255, 255, 0 ],
+          "keys": [ "Ctrl", "F1" ],
+          "name": "Back"
+        },
+        "1": {
+          "color": [ 0, 255, 255 ],
+          "keys": [ "Ctrl", "F2" ],
+          "name": "Play"
+        },
+        "11": {
+          "color": [ 255, 0, 255 ],
+          "keys": [ "Ctrl", "F11" ]
+        },
+        "2": {
+          "color": [ 0, 255, 255 ],
+          "keys": [ "Ctrl", "F3" ],
+          "name": "Forward"
+        }
+      }
+    }
+  ]
+}

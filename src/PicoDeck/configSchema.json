@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "properties": {
+    "applications": {
+      "items": {
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "offColor": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array"
+          },
+          "shortcuts": {
+            "properties": {
+              "0": {
+                "properties": {
+                  "color": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "color",
+                  "keys"
+                ],
+                "type": "object"
+              },
+              "1": {
+                "properties": {
+                  "color": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "color",
+                  "keys"
+                ],
+                "type": "object"
+              },
+              "10": {
+                "properties": {
+                  "color": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "color",
+                  "keys"
+                ],
+                "type": "object"
+              },
+              "11": {
+                "properties": {
+                  "color": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "color",
+                  "keys"
+                ],
+                "type": "object"
+              },
+              "2": {
+                "properties": {
+                  "color": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  },
+                  "keys": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "color",
+                  "keys",
+                  "name"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "0",
+              "1"
+            ],
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "offColor",
+          "shortcuts"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "applications"
+  ],
+  "type": "object"
+}
