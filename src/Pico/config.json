@@ -1,6 +1,7 @@
 {
-  "$schema": "..\\..\\configSchema.json",
-  "host": "192.168.1.168",
+  "network_name": "",
+  "network_password": "",
+  "host": "192.168.x.x",
   "port": 12345,
   "applications": [
     {
@@ -9,11 +10,11 @@
       "shortcuts": {
         "0": {
           "color": [ 255, 0, 0 ],
-          "keys": [ "Alt", "F1" ]
+          "keys": [ "CONTROL", "F1" ]
         },
         "1": {
           "color": [ 0, 255, 0 ],
-          "keys": [ "Alt", "F2" ]
+          "keys": [ "ALT", "F2" ]
         },
         "10": {
           "color": [ 0, 0, 255 ],

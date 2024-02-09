@@ -149,10 +149,18 @@
         "type": "object"
       },
       "type": "array"
+    },
+    "host": {
+      "type": "string"
+    },
+    "port": {
+      "type": "integer"
     }
   },
   "required": [
-    "applications"
+    "applications",
+    "host",
+    "port"
   ],
   "type": "object"
 }

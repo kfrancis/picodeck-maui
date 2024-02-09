@@ -5,6 +5,10 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PicoDeck", "src\PicoDeck\PicoDeck.csproj", "{9DF4612A-04C0-4C01-A08F-F0516D7B287F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PicoDeckService", "src\PicoDeckService\PicoDeckService.csproj", "{982439A4-3AF8-4F42-932B-AD7564041CB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PicoDeckTaskbar", "src\PicoDeckTaskbar\PicoDeckTaskbar.csproj", "{F57F0117-2F62-4333-8CB3-13981DBF0E4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +21,14 @@ Global
 		{9DF4612A-04C0-4C01-A08F-F0516D7B287F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DF4612A-04C0-4C01-A08F-F0516D7B287F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9DF4612A-04C0-4C01-A08F-F0516D7B287F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{982439A4-3AF8-4F42-932B-AD7564041CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{982439A4-3AF8-4F42-932B-AD7564041CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{982439A4-3AF8-4F42-932B-AD7564041CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{982439A4-3AF8-4F42-932B-AD7564041CB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F57F0117-2F62-4333-8CB3-13981DBF0E4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F57F0117-2F62-4333-8CB3-13981DBF0E4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F57F0117-2F62-4333-8CB3-13981DBF0E4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F57F0117-2F62-4333-8CB3-13981DBF0E4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
