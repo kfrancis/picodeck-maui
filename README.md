@@ -1,6 +1,6 @@
 # picodeck-maui
 
-          ![PicoDeck](picodeck.png)
+![PicoDeck](picodeck.png)
 
 ## Todo:
 
