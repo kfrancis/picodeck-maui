@@ -1,4 +1,9 @@
-import json
+"""
+This script is used to control a PicoKeypad device and execute shortcuts for different applications.
+It loads a configuration file, connects to Wi-Fi, and listens for button presses on the keypad.
+When a button is pressed, it either switches the current application or executes a shortcut for the current application.
+"""
+
 import picokeypad
 import time
 import network
@@ -12,40 +17,70 @@ last_button_states = 0
 context_switch_mode = False  # True if next button press selects an application
 current_application_key = None  # Use to store the key of the current application
 
-# Load config
-try:
-    with open("config.json", "r") as file:
-        config = json.load(file)
-except Exception as e:
-    log_exception(e)  # Assuming log_exception is implemented elsewhere
-    
-ssid = config["network_name"]
-password = config["network_password"]
+def validate_config(config):
+    required_fields = ["network_name", "network_password", "host", "port", "applications"]
 
-# Connect to Wi-Fi
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-wlan.connect(ssid, password)
+    # Check for missing required fields
+    missing_fields = [field for field in required_fields if field not in config]
+    if missing_fields:
+        raise ValueError(f"Missing required configuration fields: {', '.join(missing_fields)}")
 
-# Wait for connection
-while not wlan.isconnected():
-    pass
+    # Check for specific types or formats if necessary
+    if not isinstance(config["network_name"], str) or not config["network_name"]:
+        raise ValueError("Invalid or empty 'network_name' in configuration.")
+    if not isinstance(config["network_password"], str) or not config["network_password"]:
+        raise ValueError("Invalid or empty 'network_password' in configuration.")
+    if not isinstance(config["host"], str) or not config["host"]:
+        raise ValueError("Invalid or empty 'host' in configuration.")
+    if not isinstance(config["port"], int) or config["port"] <= 0:
+        raise ValueError("Invalid or out of range 'port' in configuration.")
 
-print(f"Connected to Wi-Fi {ssid}")
-    
+    # Validate the 'applications' field
+    if not isinstance(config["applications"], list) or not config["applications"]:
+        raise ValueError("'applications' should be a non-empty list in configuration.")
+
+    for app in config["applications"]:
+        if "name" not in app or not isinstance(app["name"], str):
+            raise ValueError("Each application must have a valid 'name'.")
+        if "shortcuts" not in app or not isinstance(app["shortcuts"], dict):
+            raise ValueError("Each application must have a 'shortcuts' dictionary.")
+
+
+
+# Function to connect to Wi-Fi with timeout and error handling
+def connect_to_wifi(wlan, ssid, password, timeout_seconds=10):
+    wlan.active(True)
+    wlan.connect(ssid, password)
+
+    start_time = time.time()
+    while not wlan.isconnected():
+        if time.time() - start_time > timeout_seconds:
+            print(f"Failed to connect to Wi-Fi {ssid} within {timeout_seconds} seconds.")
+            return False
+        time.sleep(0.1)  # Sleep to avoid busy waiting
+    print(f"Connected to Wi-Fi {ssid}")
+    return True
+
 def send_message_to_server(message, host, port):
-    addr_info = socket.getaddrinfo(host, port)[0][-1]
-    s = socket.socket()
     try:
-        s.connect(addr_info)
-        s.send(message)
-        print("Sent message to the server:", message)
-    finally:
-        s.close()
-
-# Example usage
-host = config['host']
-port = config['port']
+        # Try to get the address info for the host and port
+        addr_info = socket.getaddrinfo(host, port)[0][-1]
+        s = socket.socket()
+        try:
+            # Attempt to connect and send the message
+            s.connect(addr_info)
+            s.send(message.encode('utf-8'))  # Ensure the message is bytes
+            print("Sent message to the server:", message)
+        except socket.gaierror as e:
+            print("Failed to get address info for the host:", host, "Error:", e)
+        except socket.timeout as e:
+            print("Connection timed out while trying to send message to the server. Error:", e)
+        except socket.error as e:
+            print("Socket error occurred while sending message to the server. Error:", e)
+        finally:
+            s.close()
+    except Exception as e:
+        print("An unexpected error occurred while sending message to the server. Error:", e)
 
 def draw_red_x():
     """
@@ -55,7 +90,7 @@ def draw_red_x():
     """
     red_x_keys = [0, 3, 5, 6, 9, 10, 12, 15]  # Decimal indexes for keys to be red
     off_color = (5, 5, 5)  # Dim color for off state
-    
+
     def illuminate_x(is_on):
         color = (255, 0, 0) if is_on else off_color
         for i in range(NUM_PADS):
@@ -64,7 +99,7 @@ def draw_red_x():
             else:
                 keypad.illuminate(i, *off_color)  # Always dim others
         keypad.update()
-    
+
     for _ in range(2):  # Blink twice
         illuminate_x(True)  # Turn on the red 'X'
         time.sleep(0.5)  # 500ms on
@@ -121,22 +156,42 @@ def execute_shortcut(button_index):
         if shortcut:
             shortcut_name = shortcut.get("name", "Unnamed Shortcut")
             print(f"Executing {shortcut_name} for {app['name']}")
-            
+
             message_dict = {
                 "application": app['name'],
                 "shortcut_name": shortcut_name,
                 "keys": shortcut['keys']
             }
-            
+
             # Serialize the dictionary to a JSON string
             message_json = ujson.dumps(message_dict)
-            
+
             # Send the serialized message to the server
             send_message_to_server(message_json, host, port)
-            
+
             illuminate_key(button_index, *shortcut["color"], brightness=1.0)
             time.sleep(0.5)  # Briefly show the color at full brightness
             illuminate_application_keys()
+
+# Load config
+try:
+    with open("config.json", "r") as file:
+        config = ujson.load(file)
+    validate_config(config)
+except ValueError as e:
+    print(f"Configuration Error: {e}")
+except Exception as e:
+    print(f"Unexpected Error: {e}")
+
+ssid = config["network_name"]
+password = config["network_password"]
+host = config['host']
+port = config['port']
+
+wlan = network.WLAN(network.STA_IF)
+if not connect_to_wifi(wlan, ssid, password):
+    # Handle connection failure (e.g., retry, fallback, or halt)
+    print("Unable to establish Wi-Fi connection. Check configuration or network status.")
 
 # Setup the default state
 illuminate_keys_default()
