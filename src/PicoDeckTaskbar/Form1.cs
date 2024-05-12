@@ -19,6 +19,30 @@ namespace PicoDeckTaskbar
             Hide();
         }
 
+        private readonly object _lock = new object();
+        private const int LogMaxLines = 500;
+
+        public void AddToLog(string message)
+        {
+            this.SafeInvoke(() =>
+            {
+                lock (_lock)
+                {
+                    // add this line at the top of the log
+                    listBox1.Items.Add(message);
+
+                    // keep only a few lines in the log
+                    while (listBox1.Items.Count > LogMaxLines)
+                    {
+                        listBox1.Items.RemoveAt(0);
+                    }
+
+                    // Automatically scroll to the last added item
+                    listBox1.TopIndex = listBox1.Items.Count - 1;
+                }
+            }, false);
+        }
+
         private void Form1_Resize(object? sender, EventArgs e)
         {
             if (WindowState == FormWindowState.Minimized)
@@ -56,11 +80,13 @@ namespace PicoDeckTaskbar
 
         private void startServerBtn_Click(object sender, EventArgs e)
         {
+            AddToLog("Starting ..");
             SendMessageToService("start");
         }
 
         private void stopServerBtn_Click(object sender, EventArgs e)
         {
+            AddToLog("Stopping ..");
             SendMessageToService("stop");
         }
 

@@ -1,9 +1,3 @@
-"""
-This script is used to control a PicoKeypad device and execute shortcuts for different applications.
-It loads a configuration file, connects to Wi-Fi, and listens for button presses on the keypad.
-When a button is pressed, it either switches the current application or executes a shortcut for the current application.
-"""
-
 import picokeypad
 import time
 import network
@@ -16,9 +10,10 @@ NUM_PADS = keypad.get_num_pads()
 last_button_states = 0
 context_switch_mode = False  # True if next button press selects an application
 current_application_key = None  # Use to store the key of the current application
+host = None
 
 def validate_config(config):
-    required_fields = ["network_name", "network_password", "host", "port", "applications"]
+    required_fields = ["network_name", "network_password", "port", "applications"]
 
     # Check for missing required fields
     missing_fields = [field for field in required_fields if field not in config]
@@ -61,21 +56,17 @@ def connect_to_wifi(wlan, ssid, password, timeout_seconds=10):
     print(f"Connected to Wi-Fi {ssid}")
     return True
 
-def send_message_to_server(message, host, port):
+def send_message_to_server(message, server_ip, port):
     try:
         # Try to get the address info for the host and port
-        addr_info = socket.getaddrinfo(host, port)[0][-1]
-        s = socket.socket()
+        addr_info = socket.getaddrinfo(server_ip, port)[0][-1]
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             # Attempt to connect and send the message
             s.connect(addr_info)
             s.send(message.encode('utf-8'))  # Ensure the message is bytes
             print("Sent message to the server:", message)
-        except socket.gaierror as e:
-            print("Failed to get address info for the host:", host, "Error:", e)
-        except socket.timeout as e:
-            print("Connection timed out while trying to send message to the server. Error:", e)
-        except socket.error as e:
+        except OSError as e:
             print("Socket error occurred while sending message to the server. Error:", e)
         finally:
             s.close()
@@ -149,6 +140,31 @@ def select_application(button):
     print("No application for selected button, displaying red 'X'")
     draw_red_x()
 
+def listen_for_server():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    client_socket.bind(("", 9999))
+
+    print("Listening for server broadcasts...")
+    while True:
+        message, server_address = client_socket.recvfrom(1024)
+        print(f"Discovered server at {server_address[0]} with message: {message.decode()}")
+
+        # Return the discovered server IP
+        return server_address[0]
+
+def acknowledge_server(server_ip):
+    global host  # Declare 'host' as global to modify the global variable
+    ack_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        ack_socket.sendto(b'Client Acknowledgment', (server_ip, 10000))
+        print("Sent acknowledgment to server.")
+    finally:
+        ack_socket.close()  # Ensure the socket is closed
+
+    # Update the global 'host' variable
+    host = server_ip
+
 def execute_shortcut(button_index):
     if current_application_key is not None:
         app = config["applications"][current_application_key]
@@ -185,13 +201,18 @@ except Exception as e:
 
 ssid = config["network_name"]
 password = config["network_password"]
-host = config['host']
 port = config['port']
 
 wlan = network.WLAN(network.STA_IF)
 if not connect_to_wifi(wlan, ssid, password):
     # Handle connection failure (e.g., retry, fallback, or halt)
     print("Unable to establish Wi-Fi connection. Check configuration or network status.")
+
+# Wait until the server is discovered and acknowledged
+host = None
+while host is None:
+    host = listen_for_server()
+    acknowledge_server(host)
 
 # Setup the default state
 illuminate_keys_default()
@@ -210,3 +231,5 @@ while True:
                     execute_shortcut(button)
         last_button_states = button_states
     time.sleep(0.1)
+
+

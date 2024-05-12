@@ -36,6 +36,7 @@
             exitToolStripMenuItem = new ToolStripMenuItem();
             startServerBtn = new Button();
             stopServerBtn = new Button();
+            listBox1 = new ListBox();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -87,11 +88,21 @@
             stopServerBtn.UseVisualStyleBackColor = true;
             stopServerBtn.Click += stopServerBtn_Click;
             // 
+            // listBox1
+            // 
+            listBox1.FormattingEnabled = true;
+            listBox1.ItemHeight = 15;
+            listBox1.Location = new Point(12, 41);
+            listBox1.Name = "listBox1";
+            listBox1.Size = new Size(776, 394);
+            listBox1.TabIndex = 2;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(listBox1);
             Controls.Add(stopServerBtn);
             Controls.Add(startServerBtn);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -109,5 +120,6 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
+        private ListBox listBox1;
     }
 }

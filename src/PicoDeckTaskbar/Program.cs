@@ -14,4 +14,41 @@ namespace PicoDeckTaskbar
             Application.Run(new Form1());
         }
     }
+
+    public static class UsefulExtensions
+    {
+        public static void SafeInvoke(this Control uiElement, Action updater, bool forceSynchronous)
+        {
+            if (uiElement == null)
+            {
+                throw new ArgumentNullException(nameof(uiElement));
+            }
+
+            // Action to perform the update
+            void performUpdate()
+            {
+                if (uiElement.IsDisposed)
+                    throw new ObjectDisposedException(uiElement.Name, "Control is already disposed.");
+
+                updater();
+            }
+
+            if (uiElement.InvokeRequired)
+            {
+                // Choose between synchronous and asynchronous calls
+                if (forceSynchronous)
+                {
+                    uiElement.Invoke(performUpdate);
+                }
+                else
+                {
+                    uiElement.BeginInvoke(performUpdate);
+                }
+            }
+            else
+            {
+                performUpdate();
+            }
+        }
+    }
 }
