@@ -1,8 +1,120 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:vm="clr-namespace:PicoDeck.ViewModels"
-			 x:Class="PicoDeck.Views.MainPage"
-			 x:DataType="vm:MainViewModel">
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="PicoDeck.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:PicoDeck.ViewModels"
+    x:DataType="vm:MainViewModel">
+    <VerticalStackLayout Padding="30" Spacing="20">
+        <Label
+            FontSize="Medium"
+            HorizontalOptions="Center"
+            Text="Pimoroni RGB Keypad Configuration" />
 
+        <!--  4x4 Grid of Buttons  -->
+        <Grid
+            ColumnSpacing="10"
+            HorizontalOptions="Center"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Dynamically create buttons for the 4x4 grid  -->
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="1"
+                Text="1" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                BackgroundColor="LightGray"
+                Text="2" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="2"
+                BackgroundColor="LightGray"
+                Text="3" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="3"
+                BackgroundColor="LightGray"
+                Text="4" />
+
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                BackgroundColor="LightGray"
+                Text="5" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="1"
+                BackgroundColor="LightGray"
+                Text="6" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="2"
+                BackgroundColor="LightGray"
+                Text="7" />
+            <Button
+                Grid.Row="1"
+                Grid.Column="3"
+                BackgroundColor="LightGray"
+                Text="8" />
+
+            <Button
+                Grid.Row="2"
+                Grid.Column="0"
+                BackgroundColor="LightGray"
+                Text="9" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="1"
+                BackgroundColor="LightGray"
+                Text="10" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="2"
+                BackgroundColor="LightGray"
+                Text="11" />
+            <Button
+                Grid.Row="2"
+                Grid.Column="3"
+                BackgroundColor="LightGray"
+                Text="12" />
+
+            <Button
+                Grid.Row="3"
+                Grid.Column="0"
+                BackgroundColor="LightGray"
+                Text="13" />
+            <Button
+                Grid.Row="3"
+                Grid.Column="1"
+                BackgroundColor="LightGray"
+                Text="14" />
+            <Button
+                Grid.Row="3"
+                Grid.Column="2"
+                BackgroundColor="LightGray"
+                Text="15" />
+            <Button
+                Grid.Row="3"
+                Grid.Column="3"
+                BackgroundColor="LightGray"
+                Text="16" />
+        </Grid>
+    </VerticalStackLayout>
 </ContentPage>

@@ -1,10 +1,10 @@
-﻿namespace PicoDeck.Views;
+namespace PicoDeck.Views;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(MainViewModel viewModel)
-	{
-		InitializeComponent();
-		BindingContext = viewModel;
-	}
+    public MainPage(MainViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 }
