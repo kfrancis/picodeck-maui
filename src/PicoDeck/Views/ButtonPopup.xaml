@@ -21,23 +21,86 @@
         <Button Command="{Binding DetectShortcutCommand}" Text="Detect Shortcut" />
 
         <!--  Simple RGB color picker (placeholder for actual component)  -->
-        <StackLayout HorizontalOptions="CenterAndExpand" Orientation="Horizontal">
-            <Label Text="R:" />
+        <Grid RowSpacing="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!--  Red  -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="R:"
+                VerticalOptions="Center" />
             <Slider
+                Grid.Row="0"
+                Grid.Column="1"
                 Maximum="255"
                 Minimum="0"
+                VerticalOptions="Center"
                 Value="{Binding SelectedRed, Mode=TwoWay}" />
-            <Label Text="G:" />
+            <Entry
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding SelectedRed, Mode=TwoWay}"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+
+            <!--  Green  -->
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="G:"
+                VerticalOptions="Center" />
             <Slider
+                Grid.Row="1"
+                Grid.Column="1"
                 Maximum="255"
                 Minimum="0"
+                VerticalOptions="Center"
                 Value="{Binding SelectedGreen, Mode=TwoWay}" />
-            <Label Text="B:" />
+            <Entry
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="{Binding SelectedGreen, Mode=TwoWay}"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+
+            <!--  Blue  -->
+            <Label
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="B:"
+                VerticalOptions="Center" />
             <Slider
+                Grid.Row="2"
+                Grid.Column="1"
                 Maximum="255"
                 Minimum="0"
+                VerticalOptions="Center"
                 Value="{Binding SelectedBlue, Mode=TwoWay}" />
-        </StackLayout>
+            <Entry
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="{Binding SelectedBlue, Mode=TwoWay}"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+        </Grid>
+
+        <!--  Color Preview BoxView  -->
+        <BoxView
+            HeightRequest="50"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="100"
+            Color="{Binding SelectedColor}" />
 
         <!--  Button to save the configuration  -->
         <Button

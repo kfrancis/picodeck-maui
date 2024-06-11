@@ -10,7 +10,7 @@
 #pragma warning disable CS8601
 #pragma warning disable CS8603
 
-namespace PicoDeck
+namespace PicoDeck.Models
 {
     using System;
     using System.Collections.Generic;
@@ -53,12 +53,12 @@ namespace PicoDeck
 
     public partial class DeckConfig
     {
-        public static DeckConfig FromJson(string json) => JsonSerializer.Deserialize<DeckConfig>(json, PicoDeck.Converter.Settings);
+        public static DeckConfig FromJson(string json) => JsonSerializer.Deserialize<DeckConfig>(json, Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this DeckConfig self) => JsonSerializer.Serialize(self, PicoDeck.Converter.Settings);
+        public static string ToJson(this DeckConfig self) => JsonSerializer.Serialize(self, Converter.Settings);
     }
 
     internal static class Converter

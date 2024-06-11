@@ -3,16 +3,61 @@
     x:Class="PicoDeck.Views.MainPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:PicoDeck.Models"
     xmlns:vm="clr-namespace:PicoDeck.ViewModels"
     x:DataType="vm:MainViewModel">
-    <VerticalStackLayout Padding="30" Spacing="20">
+    <Grid
+        Padding="30"
+        ColumnSpacing="20"
+        RowSpacing="20">
+        <!--  Define Row and Column Definitions  -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--  Title Label  -->
         <Label
+            Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
             FontSize="Medium"
             HorizontalOptions="Center"
             Text="Pimoroni RGB Keypad Configuration" />
 
+        <!--  Applications CollectionView  -->
+        <CollectionView
+            x:Name="applicationsCollectionView"
+            Grid.Row="1"
+            Grid.Column="0"
+            ItemsSource="{Binding Applications}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SysApplication">
+                    <StackLayout Padding="10" Orientation="Horizontal">
+                        <BoxView
+                            HeightRequest="20"
+                            VerticalOptions="Center"
+                            WidthRequest="20"
+                            Color="{Binding OffColor}" />
+                        <Label
+                            Margin="10,0"
+                            Text="{Binding Name}"
+                            VerticalOptions="Center" />
+                        <Label Text="{Binding Shortcuts.Count, StringFormat='({0})'}" VerticalOptions="Center" />
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
         <!--  4x4 Grid of Buttons  -->
         <Grid
+            x:Name="buttonsGrid"
+            Grid.Row="1"
+            Grid.Column="1"
             ColumnSpacing="10"
             HorizontalOptions="Center"
             RowSpacing="10">
@@ -41,80 +86,132 @@
                 Grid.Row="0"
                 Grid.Column="1"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="2"
                 Text="2" />
             <Button
                 Grid.Row="0"
                 Grid.Column="2"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="3"
                 Text="3" />
             <Button
                 Grid.Row="0"
                 Grid.Column="3"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="4"
                 Text="4" />
 
             <Button
                 Grid.Row="1"
                 Grid.Column="0"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="5"
                 Text="5" />
             <Button
                 Grid.Row="1"
                 Grid.Column="1"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="6"
                 Text="6" />
             <Button
                 Grid.Row="1"
                 Grid.Column="2"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="7"
                 Text="7" />
             <Button
                 Grid.Row="1"
                 Grid.Column="3"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="8"
                 Text="8" />
 
             <Button
                 Grid.Row="2"
                 Grid.Column="0"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="9"
                 Text="9" />
             <Button
                 Grid.Row="2"
                 Grid.Column="1"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="10"
                 Text="10" />
             <Button
                 Grid.Row="2"
                 Grid.Column="2"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="11"
                 Text="11" />
             <Button
                 Grid.Row="2"
                 Grid.Column="3"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="12"
                 Text="12" />
 
             <Button
                 Grid.Row="3"
                 Grid.Column="0"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="13"
                 Text="13" />
             <Button
                 Grid.Row="3"
                 Grid.Column="1"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="14"
                 Text="14" />
             <Button
                 Grid.Row="3"
                 Grid.Column="2"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="15"
                 Text="15" />
             <Button
                 Grid.Row="3"
                 Grid.Column="3"
                 BackgroundColor="LightGray"
+                Command="{Binding OpenButtonCommand}"
+                CommandParameter="16"
                 Text="16" />
         </Grid>
-    </VerticalStackLayout>
+
+        <!--  Visual State Manager for Responsive Layout  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WidthStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.Setters>
+                        <Setter TargetName="applicationsCollectionView" Property="Grid.Row" Value="1" />
+                        <Setter TargetName="applicationsCollectionView" Property="Grid.Column" Value="0" />
+                        <Setter TargetName="buttonsGrid" Property="Grid.Row" Value="2" />
+                        <Setter TargetName="buttonsGrid" Property="Grid.Column" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.Setters>
+                        <Setter TargetName="applicationsCollectionView" Property="Grid.Row" Value="1" />
+                        <Setter TargetName="applicationsCollectionView" Property="Grid.Column" Value="0" />
+                        <Setter TargetName="buttonsGrid" Property="Grid.Row" Value="1" />
+                        <Setter TargetName="buttonsGrid" Property="Grid.Column" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
 </ContentPage>
